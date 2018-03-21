@@ -2,23 +2,22 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  ImageBackground,
   Image
 } from 'react-native';
-import { Container, Text, Footer, FooterTab, Body } from 'native-base';
-// import { StackNavigator } from 'react-navigation';
+import { Text } from 'native-base';
+import { StackNavigator } from 'react-navigation';
 
 export default class SplashScene extends Component {
-//   componentDidMount() {
-//     setTimeout(() => {
-//       this.props.navigation.navigate('signInScene');
-//     }, 4000);
-//   }
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.navigation.navigate('loginScreen');
+    }, 4000);
+  }
 
   render() {
     return (
             <View style={styles.wrapper}>
-                <Image 
+                <Image
                     style={styles.logo}
                     source={require('./assets/Andela-logo.png')}
                     />
@@ -96,6 +95,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 50,
-}
+    marginBottom: 140,
+    marginTop: -40,
+  }
 
 });
