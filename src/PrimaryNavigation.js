@@ -18,7 +18,6 @@ const PrimaryNavigation = StackNavigator({
   headerMode: 'none',
   title: 'Main',
   initialRouteName: 'introStack',
-  // transitionConfig: noTransitionConfig
 });
 
 export default PrimaryNavigation;
