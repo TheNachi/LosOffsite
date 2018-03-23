@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, TouchableHighlight, Image, Alert } from 'react-native';
 import Expo from 'expo';
-import Config from 'react-native-config';
 import { Container, Content, H1 } from 'native-base';
 import styles from './LoginStyles';
+import Config from '../../../config';
 
 /**
  * Login Screen Class Component
 */
 class LoginScreen extends Component {
   /**
-     * Method for logging in to google
+     * Method for logging in with google
      *
-     * @returns {undefined}
+     * @returns {Object} response
      */
   login = async () => {
     try {
@@ -23,7 +23,10 @@ class LoginScreen extends Component {
       });
 
       if (result.type === 'success') {
-        console.log(result);
+        const { email } = result.user;
+        if (!email.includes('andela')) {
+          return Alert.alert('Invalid Address', 'Please Provide An Andela Email Address');
+        }
         return result;
       }
       return { cancelled: true };
@@ -39,10 +42,19 @@ class LoginScreen extends Component {
     */
   render() {
     return (
-      <Container>
+      <Container style={styles.container}>
         <Content>
           <View style={styles.content}>
-            <H1>The Andela Hunt</H1>
+           <Image
+              style={styles.logo}
+              source={require('../../assets/Andela-logo.png')}
+            />
+            <H1 style={styles.text}>The Andela Hunt</H1>
+            <TouchableHighlight onPress={this.login}>
+              <Image
+                source={require('../../assets/button.png')}
+              />
+            </TouchableHighlight>
           </View>
         </Content>
       </Container>
