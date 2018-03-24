@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation';
 import SplashScreen from './SplashScreen';
-import LoginScreen from './components/loginComponents/LoginScreen'
+import LoginScreen from './components/login/LoginScreen';
 
 const IntroStack = StackNavigator({
   splashScreen: { screen: SplashScreen },
