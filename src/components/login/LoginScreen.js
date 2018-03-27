@@ -27,7 +27,8 @@ class LoginScreen extends Component {
         if (!email.includes('andela')) {
           return Alert.alert('Invalid Address', 'Please Provide An Andela Email Address');
         }
-        return result;
+        const { navigate } = this.props.navigation;
+        return navigate('dashboardScreen', { result });
       }
       return { cancelled: true };
     } catch (e) {

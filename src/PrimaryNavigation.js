@@ -1,10 +1,12 @@
 import { StackNavigator } from 'react-navigation';
 import SplashScreen from './SplashScreen';
 import LoginScreen from './components/login/LoginScreen';
+import DashboardScreen from './components/dashboard/DashboardScreen';
 
 const IntroStack = StackNavigator({
   splashScreen: { screen: SplashScreen },
-  loginScreen: { screen: LoginScreen }
+  loginScreen: { screen: LoginScreen },
+  dashboardScreen: { screen: DashboardScreen }
 }, {
   headerMode: 'float',
   navigationOptions: {
