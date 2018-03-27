@@ -1,20 +1,42 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   View,
-  Image
+  Image,
+  AsyncStorage
 } from 'react-native';
 import { Text } from 'native-base';
-import { StackNavigator } from 'react-navigation';
 import styles from './SplashScreenStyles';
 
+/**
+ * Splash Screen component
+ */
 export default class SplashScene extends Component {
+  /**
+     * Called when component has mounted
+     *
+     * @returns {undefined}
+     */
   componentDidMount() {
-    setTimeout(() => {
-      this.props.navigation.navigate('loginScreen');
+    const { navigate } = this.props.navigation;
+    setTimeout(async () => {
+      try {
+        const stringResult = await AsyncStorage.getItem('LOGIN_RESULT');
+        if (stringResult !== null) {
+          const result = JSON.parse(stringResult);
+          return navigate('Home', { result });
+        }
+      } catch (error) {
+        // Error getting result
+      }
+      navigate('loginScreen');
     }, 4000);
   }
 
+  /**
+   * Component render method
+   *
+   * @returns {Node} jsx
+   */
   render() {
     return (
       <View style={styles.wrapper}>
