@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight, Image, Alert } from 'react-native';
+import { View, TouchableHighlight, Image, Alert, AsyncStorage } from 'react-native';
 import Expo from 'expo';
 import { Container, Content, H1 } from 'native-base';
 import styles from './LoginStyles';
@@ -27,6 +27,11 @@ class LoginScreen extends Component {
         if (!email.includes('andela')) {
           return Alert.alert('Invalid Address', 'Please Provide An Andela Email Address');
         }
+        try {
+          await AsyncStorage.setItem('LOGIN_RESULT', JSON.stringify(result));
+        } catch (error) {
+          // Error saving result
+        }
         const { navigate } = this.props.navigation;
         return navigate('Home', { result });
       }
@@ -35,6 +40,7 @@ class LoginScreen extends Component {
       return { error: true };
     }
   }
+
 
   /**
      * Component render method
