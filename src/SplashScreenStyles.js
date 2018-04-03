@@ -35,8 +35,13 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 50,
-    marginBottom: 140,
-    marginTop: -40,
+    marginBottom: 0,
+    marginTop: 0,
+  },
+  huntLogo: {
+    width: 150,
+    height: 150,
+    marginTop: 50,
   }
 
 });
