@@ -9,8 +9,7 @@ const bootcampGames = [
 ];
 const minefieldGames = [
   ['Obstacle Course', '2 Reps Per Tribe',
-    `One rep must navigate the minefield blindfolded while the
-   other rep on the other side of the field helps them through
+    `One rep must navigate the minefield blindfolded while the other rep on the other side of the field helps them through
    Team that completes the challenge in the shortest time wins
    (5 tribes at a time)`, '45 Minutes', '11:15:00 AM', '12:00:00 PM'],
   ['', '', 'Stretch Break', '', '12:00:00 PM', '12:15:00 PM']
@@ -22,11 +21,8 @@ const ingredientEAnnouncement = [
 ];
 const lunch = ['LUNCH', '', '', '', '1:00:00 PM', '2:00:00 PM'];
 const survivorGames = [
-  ['Water Challenge', 'All', `Water Challenge - 10 Teams with the highest level of
-    water advance to "Capture the flag"`, '', '2:00:00 PM', '2:30:00 PM'],
-  ['Capture The Flag', 'Top 10 tribes from Water Challenge', `Each team has 10mins to 
-    capture the other teams flag, if no flag is captured, the winner is the team with
-    least amount of prisoners`, '', '2:40:00 PM', '3:30:00 PM'],
+  ['Water Challenge', 'All', 'Water Challenge - 10 Teams with the highest level of water advance to "Capture the flag"', '', '2:00:00 PM', '2:30:00 PM'],
+  ['Capture The Flag', 'Top 10 tribes from Water Challenge', 'Each team has 10mins to capture the other teams flag, if no flag is captured, the winner is the team with least amount of prisoners', '', '2:40:00 PM', '3:30:00 PM'],
   ['Ring Toss', 'Top 5 tribes', '', '', '3:30:00 PM', '4:00:00 PM']
 ];
 const ingredientESchedule = [
