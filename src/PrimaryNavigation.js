@@ -1,4 +1,5 @@
 import React from 'react';
+import Expo from 'expo';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import SplashScreen from './SplashScreen';

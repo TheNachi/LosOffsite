@@ -29,6 +29,7 @@ class DashboardScreen extends Component {
     });
     this.setState({ hasFontLoaded: true });
   }
+
   /**
      * Component render method
      *
