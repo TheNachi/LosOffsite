@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Expo from 'expo';
-import { ImageBackground, Image, Text } from 'react-native';
+import { ImageBackground, Image, Text, AsyncStorage} from 'react-native';
 import { Container, Content, View } from 'native-base';
 import styles from './DashboardStyles';
 
@@ -28,6 +28,8 @@ class DashboardScreen extends Component {
       Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf')
     });
     this.setState({ hasFontLoaded: true });
+    const { result } = this.props.navigation.state.params;
+    await AsyncStorage.setItem('@authUser', JSON.stringify(result));
   }
 
   /**
