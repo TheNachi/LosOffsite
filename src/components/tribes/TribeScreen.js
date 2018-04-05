@@ -97,7 +97,7 @@ export default class TribeScreen extends Component {
           cancelText="Tribe Detals"
           confirmText="Tribe Members"
           confirmButtonColor="#DD6B55"
-          onCancelPressed={() => { this.props.navigation.navigate('tribeDetails', { name: selected }), this.hideAlert(); } }
+          onCancelPressed={() => { this.props.navigation.navigate('tribeDetails', { tribeName: 'Zamunda'}), this.hideAlert() } }
           onConfirmPressed={() => { this.props.navigation.navigate('tribeMembers', { name: selected }), this.hideAlert(); } }
           contentContainerStyle={styles.alertBox}
           alertContainerStyle={styles.alertContainer}
