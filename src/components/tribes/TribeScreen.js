@@ -23,7 +23,7 @@ export default class TribeScreen extends Component {
 
   render() {
     const { showAlert } = this.state;
-    const items = ['Tribe 1', 'Tribe 2', 'Tribe 3', 'Tribe 4', 'Tribe 5'];
+    const items = ['Tribe 1', 'Tribe 2', 'Tribe 3', 'Tribe 4', 'Zamunda'];
     return (
       <ImageBackground
         source={require('../../assets/app-background.jpg')}
@@ -39,23 +39,23 @@ export default class TribeScreen extends Component {
               }>
             </List>
             <AwesomeAlert
-          show={showAlert}
-          showProgress={false}
-          message="Hey, do you want to view tribe details or the members?"
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          messageStyle={styles.alertMessage}
-          showCancelButton={true}
-          cancelButtonStyle={styles.cancelButton}
-          confirmButtonStyle={styles.confirmButton}
-          showConfirmButton={true}
-          cancelText="Tribe Detals"
-          confirmText="Tribe Members"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => { this.props.navigation.navigate('tribeDetails'), this.hideAlert() } }
-          onConfirmPressed={() => { this.props.navigation.navigate('tribeMembers') , this.hideAlert() } }
-          contentContainerStyle={styles.alertBox}
-        />
+              show={showAlert}
+              showProgress={false}
+              message="Hey, do you want to view tribe details or the members?"
+              closeOnTouchOutside={true}
+              closeOnHardwareBackPress={false}
+              messageStyle={styles.alertMessage}
+              showCancelButton={true}
+              cancelButtonStyle={styles.cancelButton}
+              confirmButtonStyle={styles.confirmButton}
+              showConfirmButton={true}
+              cancelText="Tribe Detals"
+              confirmText="Tribe Members"
+              confirmButtonColor="#DD6B55"
+              onCancelPressed={() => { this.props.navigation.navigate('tribeDetails', { tribeName: 'Zamunda'}), this.hideAlert() } }
+              onConfirmPressed={() => { this.props.navigation.navigate('tribeMembers') , this.hideAlert() } }
+              contentContainerStyle={styles.alertBox}
+            />
           </Content>
         </Container>
       </ImageBackground>
