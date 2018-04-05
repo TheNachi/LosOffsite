@@ -4,6 +4,7 @@ import Expo from 'expo';
 import { Container, Content, H1 } from 'native-base';
 import styles from './LoginStyles';
 import Config from '../../../config';
+import { database } from '../../firebase';
 
 /**
  * Login Screen Class Component
@@ -27,18 +28,37 @@ class LoginScreen extends Component {
         if (!email.includes('andela')) {
           return Alert.alert('Invalid Address', 'Please Provide An Andela Email Address');
         }
+        this.checkDatabase(email, result);
+      }
+      return { cancelled: true };
+    } catch (e) {
+      return { error: true };
+    }
+  }
+
+  checkDatabase = async (email, result) => {
+    let response;
+    database.ref('/tribes').on('value', async (snapshot) => {
+      response = snapshot.val();
+      const emails = [];
+      Object.values(response).forEach((tribe) => {
+        Object.values(tribe).forEach((member) => {
+          if (member.email) {
+            emails.push(member.email);
+          }
+        });
+      });
+      const index = emails.findIndex(element => element === email);
+      if (index !== -1) {
         try {
           await AsyncStorage.setItem('LOGIN_RESULT', JSON.stringify(result));
         } catch (error) {
           // Error saving result
         }
         const { navigate } = this.props.navigation;
-        return navigate('Home', { result });
+        navigate('Home', { result });
       }
-      return { cancelled: true };
-    } catch (e) {
-      return { error: true };
-    }
+    });
   }
 
 
