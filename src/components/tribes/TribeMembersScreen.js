@@ -1,8 +1,12 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable global-require  */
+/* eslint-disable require-jsdoc  */
+
 import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
-import { Container, Separator, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
+import { Container, Separator, Spinner, Content, List, ListItem, Body, Text } from 'native-base';
 import { database } from '../../firebase';
-import TribeScreen from './TribeScreen';
+import styles from './TribeStyles';
 
 export default class ListAvatarExample extends Component {
   state: { user: null }
@@ -11,68 +15,68 @@ export default class ListAvatarExample extends Component {
     super(props);
     this.state = {
       data: null,
-      tribeData: null,
+      tribeData: null
     };
   }
 
   async componentWillMount() {
-    const result = await AsyncStorage.getItem('@authUser')
+    const result = await AsyncStorage.getItem('@authUser');
     this.setState({ user: JSON.parse(result).user });
-    database.ref(`tribes/`)
+    database.ref('tribes/')
       .once('value')
-      .then(data => {
-        return this.setState({
-          tribeData: data.val()
-          
-        })
-      })
-      .catch(err => {
-        console.log(err, "an error occured")
-      })
+      .then(data => this.setState({
+        tribeData: data.val()
+
+      }))
+      .catch((err) => {
+        console.log(err, 'an error occured');
+      });
   }
 
-  format (d, tn) {
-    const formatedData = []
-    const tribe = d[Object.keys(d).find(t => d[t].tribeName === tn)] // find the tribe
+  format(d, tn) {
+    const formatedData = [];
+    const tribe = d[Object.keys(d).find(t => d[t].tribeName === tn)]; // find the tribe
     Object.keys(tribe).forEach((t) => {
       if (t !== 'tribeName') {
-        formatedData.push(Object.values(tribe[t]))
+        formatedData.push(Object.values(tribe[t]));
       }
-    })
-    return formatedData
+    });
+    return formatedData;
   }
   render() {
-    // const hdgd = TribeScreen. ;
-    const { params } = this.props.navigation.state
+    const { params } = this.props.navigation.state;
+    if (!this.state.tribeData) {
+      return (
+        <Container>
+          <Content>
+            <Spinner color='#EF8E1F' />
+          </Content>
+        </Container>
+      );
+    }
 
-    const tribes = this.state.tribeData
     if (this.state.tribeData) {
-      const tribeData = this.format(this.state.tribeData, params.name)
-    return (
+      const tribeData = this.format(this.state.tribeData, params.name);
+      return (
       <Container>
         <Content>
           <List>
             <Separator bordered>
-              <Text>{params.name}</Text>
+              <Text style={styles.text}>{params.name}</Text>
             </Separator>
-            {tribeData.map((member) => {
-              return (
+            {tribeData.map(member => (
                 <ListItem key={member[0]} avatar>
-                  <Left>
-                    <Thumbnail/>
-                  </Left>
-                  <Body> 
+                  <Body>
                     <Text>{member[1]}</Text>
                     <Text note>{member[2]}</Text>
                   </Body>
                 </ListItem>
-              )
-            })}
+              ))}
           </List>
         </Content>
       </Container>
-    );
-  }
-  return <Container />
+      );
+    }
+    return <Container />;
   }
 }

@@ -44,10 +44,10 @@ export default class SplashScene extends Component {
               style={styles.logo}
               source={require('./assets/Andela-logo.png')}
               />
-              <Image
-              style={styles.huntLogo}
-              source={require('./assets/The-hunt-logo.png')}
-              />
+          <Image
+          style={styles.huntLogo}
+          source={require('./assets/The-hunt-logo.png')}
+          />
           <Text style={styles.text}>
               2018 All Andela LOS
           </Text>
@@ -58,8 +58,6 @@ export default class SplashScene extends Component {
               Theme: The Andela Hunt
           </Text>
           <View style={styles.boxWrapper}>
-              <View style={styles.box}>
-              </View>
               <View style={styles.box}>
               </View>
               <View style={styles.box}>
