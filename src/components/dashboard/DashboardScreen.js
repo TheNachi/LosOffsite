@@ -58,13 +58,13 @@ class DashboardScreen extends Component {
                 <View style={styles.userText}>
                   <Text style={styles.dynamicText}>{result.user.name}</Text>
                   <Text style={styles.text}>Of</Text>
-                  <Text style={styles.dynamicText}>Zamunda</Text>
+                  <Text style={styles.dynamicText}>{result.tribeName}</Text>
                 </View>
               </View>
               <View style={styles.view}>
                 <View>
                   <Text style={styles.text}>Team Position:</Text>
-                  <Text style={styles.text}>Games:</Text>
+                  <Text style={styles.text}>Current Game:</Text>
                 </View>
               </View>
               <View style={styles.view}>
