@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     backgroundColor: '#EF8E1F',
-    flex: 1,
+    flex: 0,
     width: undefined,
     height: undefined,
   },
   text: {
-    paddingTop: 10,
+    paddingTop: 15,
     color: '#ffffff',
     fontSize: 30,
     textAlign: 'center',
@@ -28,20 +28,19 @@ const styles = StyleSheet.create({
   },
   boxWrapper: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     justifyContent: 'center',
-    marginTop: 190,
+    marginTop: 100,
   },
   logo: {
     width: 200,
     height: 50,
-    marginBottom: 0,
-    marginTop: 0,
+    marginTop: 30
   },
   huntLogo: {
     width: 150,
     height: 150,
-    marginTop: 50,
+    marginTop: 30,
   }
 
 });

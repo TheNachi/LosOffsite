@@ -1,9 +1,13 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable global-require  */
+/* eslint-disable require-jsdoc  */
 import React, { Component } from 'react';
 import R from 'ramda';
-import { Container, Content, List, ListItem, Text } from 'native-base';
-import { StyleSheet, ImageBackground, Alert, TouchableHighlight, View } from 'react-native';
+import { Container, Content, List, ListItem, Text, Spinner } from 'native-base';
+import { ImageBackground, View } from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { database } from '../../firebase';
+import styles from './TribeStyles';
 
 
 const flatMap = (obj) => {
@@ -26,8 +30,9 @@ export default class TribeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hasLoadedData: false,
       data: null,
-      // showAlert: false,
+      showAlert: false,
       tribeData: {},
       selected: '',
     };
@@ -36,9 +41,10 @@ export default class TribeScreen extends Component {
   componentDidMount() {
     database.ref('tribes/')
       .once('value')
-      .then((data) => this.setState({
-          tribeData: data.val()
-        }))
+      .then(data => this.setState({
+        tribeData: data.val(),
+        hasLoadedData: true
+      }))
       .catch((err) => {
         console.log(err, 'an error occured');
       });
@@ -58,34 +64,37 @@ export default class TribeScreen extends Component {
   };
 
   render() {
-    // console.log('tribeData', this.state.tribeData);
-
     const tribeNames = getTribeNames(this.state.tribeData);
-    // console.log(tribeNames, 'tribeNames');
-
-
-    const tribes = R.keys(this.state.tribeData);
-    // console.log(tribes, 'tribes');
-
     const { showAlert, selected } = this.state;
     const items = tribeNames;
+
+    if (!this.state.hasLoadedData) {
+      return (
+        <Container>
+          <Content>
+            <Spinner color='#EF8E1F' />
+          </Content>
+        </Container>
+      );
+    }
+
     return (
       <ImageBackground
-        source={require('../../assets/app-background.jpg')}
+        source={require('../../assets/App-backgroud.png')}
         style={styles.container}
         >
         <View style={styles.container1}>
             <List dataArray={items}
               renderRow={item =>
                 <ListItem onPress = {() => this.showAlert(item)} style ={styles.button} style={styles.card}>
-                  <Text style={styles.text}>{item}</Text>
+                  <Text style={styles.membersText}>{item}</Text>
                 </ListItem>
               }>
             </List>
             <AwesomeAlert
           show={showAlert}
           showProgress={false}
-          message="Hey, do you want to view tribe details or the members?"
+          message="Hey, do you want to view tribe details or tribe members?"
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           messageStyle={styles.alertMessage}
@@ -93,10 +102,11 @@ export default class TribeScreen extends Component {
           cancelButtonStyle={styles.cancelButton}
           confirmButtonStyle={styles.confirmButton}
           showConfirmButton={true}
-          cancelText="Tribe Detals"
+          cancelText="Tribe Details"
           confirmText="Tribe Members"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => { this.props.navigation.navigate('tribeDetails', { tribeName: selected }), this.hideAlert() } }
+          confirmButtonColor="#EF8E1F"
+          cancelButtonColor="#EF8E1F"
+          onCancelPressed={() => { this.props.navigation.navigate('tribeDetails', { tribeName: selected }), this.hideAlert(); } }
           onConfirmPressed={() => { this.props.navigation.navigate('tribeMembers', { name: selected }), this.hideAlert(); } }
           contentContainerStyle={styles.alertBox}
           alertContainerStyle={styles.alertContainer}
@@ -106,64 +116,3 @@ export default class TribeScreen extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: undefined,
-    height: undefined,
-    paddingTop: 30,
-  },
-  container1: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  card: {
-    backgroundColor: '#ffffff',
-    margin: 10,
-    marginRight: 15,
-    paddingLeft: 10,
-    flex: 1,
-    borderRadius: 5,
-    width: 350
-  },
-  text: {
-    // padding: 5
-  },
-  button: {
-    backgroundColor: '#4ba37b',
-    width: 100,
-    borderRadius: 50,
-    alignItems: 'center',
-    marginTop: 100
-  },
-  alertContainer: {
-    // position: 'absolute',
-    // top: 20,
-  },
-  alertBox: {
-    width: 300,
-    height: 350,
-    marginTop: 150,
-    padding: 40,
-  },
-  alertMessage: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    lineHeight: 30,
-
-  },
-  cancelButton: {
-    marginTop: 80,
-    width: 120,
-    height: 35,
-
-  },
-  confirmButton: {
-    width: 120,
-    height: 35,
-
-  },
-});

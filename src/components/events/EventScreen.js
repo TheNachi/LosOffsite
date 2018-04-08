@@ -20,7 +20,7 @@ class EventScreen extends React.Component {
     return (
       <ImageBackground
       style={styles.imageBackground}
-      source={require('../../assets/app-background.jpg')}
+      source={require('../../assets/App-backgroud.png')}
       >
         <Container>
           <Content padder>
