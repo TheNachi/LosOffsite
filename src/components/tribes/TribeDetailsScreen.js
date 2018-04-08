@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable array-callback-return */
 import React from 'react';
 import Expo from 'expo';
 import { View, ImageBackground, Text } from 'react-native';
@@ -49,7 +51,7 @@ class TribeDetailsScreen extends React.Component {
             Object.values(response.survivor[survivorGame]).forEach((data) => {
               if (data.tribeName === tribeName) {
                 gameData.push({
-                  gameName: survivorGame,
+                  gameName: `Survivor(${this.capitalizeFirstLetter(survivorGame)})`,
                   score: data.score,
                   representatives: data.representatives
                 });
@@ -62,6 +64,12 @@ class TribeDetailsScreen extends React.Component {
     });
   }
 
+  /**
+   * Capitalize first letter of word or sentence
+   * @param {String} string
+   *
+   * @returns {String} formatted string
+   */
   capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1)
 
   /**
@@ -86,7 +94,7 @@ class TribeDetailsScreen extends React.Component {
               {this.state.games.map(game => (
                 <View key={game.gameName} style={styles.gameView}>
                   <Text style={styles.gameName}>{this.capitalizeFirstLetter(game.gameName)}</Text>
-                  <Text style={{ marginBottom: 10 }}>Position: {game.score}</Text>
+                  <Text style={{ marginBottom: 10 }}>Score: {game.score}</Text>
                   <Text style={{ fontWeight: 'bold' }}>Representatives</Text>
                   <Text>{Object.values(game.representatives)}</Text>
                 </View>

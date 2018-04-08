@@ -44,12 +44,16 @@ class LoginScreen extends Component {
       Object.values(response).forEach((tribe) => {
         Object.values(tribe).forEach((member) => {
           if (member.email) {
-            emails.push(member.email);
+            emails.push({
+              tribe: tribe.tribeName,
+              email: member.email
+            });
           }
         });
       });
-      const index = emails.findIndex(element => element === email);
+      const index = emails.findIndex(element => element.email === email);
       if (index !== -1) {
+        result.tribeName = emails[index].tribe;
         try {
           await AsyncStorage.setItem('LOGIN_RESULT', JSON.stringify(result));
         } catch (error) {
@@ -57,6 +61,8 @@ class LoginScreen extends Component {
         }
         const { navigate } = this.props.navigation;
         navigate('Home', { result });
+      } else {
+        return Alert.alert('Invalid Address', 'Email Address Not Found');
       }
     });
   }
