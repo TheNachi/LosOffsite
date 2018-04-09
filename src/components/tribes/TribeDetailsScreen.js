@@ -19,7 +19,9 @@ class TribeDetailsScreen extends React.Component {
     super(props);
     this.state = {
       hasLoadedData: false,
-      games: []
+      games: [],
+      survivorGames: [],
+      survivorGamesData: []
     };
   }
 
@@ -32,6 +34,7 @@ class TribeDetailsScreen extends React.Component {
     const { tribeName } = this.props.navigation.state.params;
     database.ref('/leaderboard').on('value', (snapshot) => {
       const gameData = [];
+      const survivorGamesData = [];
       const response = snapshot.val();
       const games = Object.keys(response);
       games.map((game) => {
@@ -50,8 +53,8 @@ class TribeDetailsScreen extends React.Component {
           survivorGames.map((survivorGame) => {
             Object.values(response.survivor[survivorGame]).forEach((data) => {
               if (data.tribeName === tribeName) {
-                gameData.push({
-                  gameName: `Survivor(${this.capitalizeFirstLetter(survivorGame)})`,
+                survivorGamesData.push({
+                  gameName: survivorGame,
                   score: data.score,
                   representatives: data.representatives
                 });
@@ -60,7 +63,15 @@ class TribeDetailsScreen extends React.Component {
           });
         }
       });
-      this.setState({ games: gameData, hasLoadedData: true });
+      const survivorGames = Object.keys(response.survivor);
+      const lastItem = survivorGames.pop();
+      survivorGames.unshift(lastItem);
+      this.setState({
+        games: gameData,
+        hasLoadedData: true,
+        survivorGames,
+        survivorGamesData
+      });
     });
   }
 
@@ -71,6 +82,34 @@ class TribeDetailsScreen extends React.Component {
    * @returns {String} formatted string
    */
   capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1)
+
+  /**
+   * Display survivor games
+   *
+   * @returns {Node} jsx
+   */
+  displaySurvivorGames = () => this.state.survivorGames.map((game) => {
+    const { survivorGamesData } = this.state;
+    const index = survivorGamesData.findIndex(survivor => survivor.gameName === game);
+    if (index !== -1) {
+      return (
+          <View key={survivorGamesData[index].gameName} style={styles.gameView}>
+          <Text style={styles.gameName}>
+            {`Survivor(${this.capitalizeFirstLetter(survivorGamesData[index].gameName)})`}
+          </Text>
+          <Text style={{ marginBottom: 10 }}>Score: {survivorGamesData[index].score}</Text>
+          <Text style={{ fontWeight: 'bold' }}>Representatives</Text>
+          <Text>{Object.values(survivorGamesData[index].representatives)}</Text>
+        </View>
+      );
+    }
+    return (
+        <View key={game} style={styles.gameView}>
+          <Text style={styles.gameName}>{`Survivor(${this.capitalizeFirstLetter(game)})`}</Text>
+          <Text>You either have not, or did not make it to this stage</Text>
+        </View>
+    );
+  })
 
   /**
    * Component render method
@@ -99,6 +138,7 @@ class TribeDetailsScreen extends React.Component {
                   <Text>{Object.values(game.representatives)}</Text>
                 </View>
               ))}
+              {this.displaySurvivorGames()}
             </View>
           </Content>
         </Container>

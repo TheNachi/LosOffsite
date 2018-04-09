@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight, Image, Alert, AsyncStorage } from 'react-native';
+import { View, TouchableOpacity, Image, Alert, AsyncStorage } from 'react-native';
 import Expo from 'expo';
 import { Container, Content, H1 } from 'native-base';
 import styles from './LoginStyles';
@@ -36,6 +36,13 @@ class LoginScreen extends Component {
     }
   }
 
+  /**
+   * Check database
+   * @param {String} email
+   * @param {Object} result
+   *
+   * @returns {undefined}
+   */
   checkDatabase = async (email, result) => {
     let response;
     database.ref('/tribes').on('value', async (snapshot) => {
@@ -83,11 +90,11 @@ class LoginScreen extends Component {
               source={require('../../assets/Andela-logo.png')}
             />
             <H1 style={styles.text}>The Andela Hunt</H1>
-            <TouchableHighlight onPress={this.login}>
+            <TouchableOpacity onPress={this.login}>
               <Image
                 source={require('../../assets/button.png')}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </Content>
       </Container>
