@@ -1,9 +1,8 @@
 /* eslint-disable global-require */
 /* eslint-disable array-callback-return */
 import React from 'react';
-import Expo from 'expo';
 import { View, ImageBackground, Text } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container, Content, Spinner } from 'native-base';
 import styles from './TribeStyles';
 import { database } from '../../firebase';
 
@@ -118,7 +117,13 @@ class TribeDetailsScreen extends React.Component {
    */
   render() {
     if (!this.state.hasLoadedData) {
-      return <Expo.AppLoading />;
+      return (
+        <Container>
+          <Content>
+            <Spinner color='#EF8E1F' />
+          </Content>
+        </Container>
+      );
     }
     const { tribeName } = this.props.navigation.state.params;
     return (
