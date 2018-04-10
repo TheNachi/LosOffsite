@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, Alert, AsyncStorage } from 'react-native';
 import Expo from 'expo';
-import { Container, Content, H1 } from 'native-base';
+import { Container, Content, H1, Spinner } from 'native-base';
 import styles from './LoginStyles';
 import Config from '../../../config';
 import { database } from '../../firebase';
@@ -10,6 +10,12 @@ import { database } from '../../firebase';
  * Login Screen Class Component
 */
 class LoginScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isProcessing: false
+    }
+  }
   /**
      * Method for logging in with google
      *
@@ -17,6 +23,7 @@ class LoginScreen extends Component {
      */
   login = async () => {
     try {
+      this.setState({ isProcessing: true });
       const result = await Expo.Google.logInAsync({
         androidClientId: Config.ANDROID_CLIENT_ID,
         iosClientId: Config.IOS_CLIENT_ID,
@@ -26,6 +33,7 @@ class LoginScreen extends Component {
       if (result.type === 'success') {
         const { email } = result.user;
         if (!email.includes('andela')) {
+          this.setState({ isProcessing: false });
           return Alert.alert('Invalid Address', 'Please Provide An Andela Email Address');
         }
         this.checkDatabase(email, result);
@@ -67,8 +75,10 @@ class LoginScreen extends Component {
           // Error saving result
         }
         const { navigate } = this.props.navigation;
+        this.setState({ isProcessing: false });
         navigate('Home', { result });
       } else {
+        this.setState({ isProcessing: false });
         return Alert.alert('Invalid Address', 'Email Address Not Found');
       }
     });
@@ -81,6 +91,15 @@ class LoginScreen extends Component {
      * @returns {Node} jsx
     */
   render() {
+    if (this.state.isProcessing) {
+      return (
+        <Container>
+          <Content>
+            <Spinner color='#EF8E1F' />
+          </Content>
+        </Container>
+      );
+    }
     return (
       <Container style={styles.container}>
         <Content>

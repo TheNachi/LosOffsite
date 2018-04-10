@@ -83,6 +83,21 @@ class TribeDetailsScreen extends React.Component {
   capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1)
 
   /**
+   * Display games
+   * @param {Object} game
+   *
+   * @returns {Node} jsx
+   */
+  displayGames = game => (
+      <View key={game.gameName} style={styles.gameView}>
+        <Text style={styles.gameName}>{this.capitalizeFirstLetter(game.gameName)}</Text>
+        <Text style={{ marginBottom: 10 }}>Points: {game.score}</Text>
+        <Text style={{ fontWeight: 'bold' }}>Representatives</Text>
+        <Text>{Object.values(game.representatives)}</Text>
+      </View>
+  )
+
+  /**
    * Display survivor games
    *
    * @returns {Node} jsx
@@ -91,14 +106,15 @@ class TribeDetailsScreen extends React.Component {
     const { survivorGamesData } = this.state;
     const index = survivorGamesData.findIndex(survivor => survivor.gameName === game);
     if (index !== -1) {
+      const representatives = Object.values(survivorGamesData[index].representatives);
       return (
           <View key={survivorGamesData[index].gameName} style={styles.gameView}>
           <Text style={styles.gameName}>
             {`Survivor(${this.capitalizeFirstLetter(survivorGamesData[index].gameName)})`}
           </Text>
-          <Text style={{ marginBottom: 10 }}>Score: {survivorGamesData[index].score}</Text>
+          <Text style={{ marginBottom: 10 }}>Points: {survivorGamesData[index].score}</Text>
           <Text style={{ fontWeight: 'bold' }}>Representatives</Text>
-          <Text>{Object.values(survivorGamesData[index].representatives)}</Text>
+          <Text>{representatives}</Text>
         </View>
       );
     }
@@ -136,12 +152,7 @@ class TribeDetailsScreen extends React.Component {
             <View style={styles.main}>
               <Text style={styles.tribeName}>{tribeName.toUpperCase()}</Text>
               {this.state.games.map(game => (
-                <View key={game.gameName} style={styles.gameView}>
-                  <Text style={styles.gameName}>{this.capitalizeFirstLetter(game.gameName)}</Text>
-                  <Text style={{ marginBottom: 10 }}>Score: {game.score}</Text>
-                  <Text style={{ fontWeight: 'bold' }}>Representatives</Text>
-                  <Text>{Object.values(game.representatives)}</Text>
-                </View>
+                this.displayGames(game)
               ))}
               {this.displaySurvivorGames()}
             </View>
