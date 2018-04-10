@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Expo from 'expo';
-import { ImageBackground, Image, Text, AsyncStorage, FlatList } from 'react-native';
-import { Container, Content, View } from 'native-base';
-import { Table, Row, Rows } from 'react-native-table-component';
+import { ImageBackground, Image, Text, AsyncStorage } from 'react-native';
+import { Container, Content, View, Spinner } from 'native-base';
+import { Table, Row } from 'react-native-table-component';
 import styles from './DashboardStyles';
 import { database } from '../../firebase';
 
@@ -100,7 +100,13 @@ class DashboardScreen extends Component {
   render() {
     const { result } = this.props.navigation.state.params;
     if (!this.state.hasFontLoaded || !this.state.hasLoadedData) {
-      return <Expo.AppLoading />;
+      return (
+        <Container>
+          <Content>
+            <Spinner color='#EF8E1F' />
+          </Content>
+        </Container>
+      );
     }
     return (
       <ImageBackground
@@ -123,14 +129,14 @@ class DashboardScreen extends Component {
               </View>
               <View style={styles.view}>
                 <View>
-                  <Text style={styles.text}>Tribe Score: {this.state.tribeScore}</Text>
+                  <Text style={styles.text}>Tribe Points: {this.state.tribeScore}</Text>
                 </View>
               </View>
               <View style={styles.tableView}>
                 <View>
                   <Text style={styles.tableHeaderText}>Overall Points</Text>
                   <Table borderStyle={{ borderColor: '#D3D3D3' }} style={{ flex: 1 }}>
-                    <Row textStyle={styles.tableHeaderText} data={['Tribe', 'Score']} />
+                    <Row textStyle={styles.tableHeaderText} data={['Tribe', 'Points']} />
                     {this.state.games.map(tribe =>
                     <Row
                       textStyle={styles.rowText}
