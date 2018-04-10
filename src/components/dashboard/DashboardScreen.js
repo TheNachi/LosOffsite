@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Expo from 'expo';
-import { ImageBackground, Image, Text, AsyncStorage} from 'react-native';
+import { ImageBackground, Image, Text, AsyncStorage, FlatList } from 'react-native';
 import { Container, Content, View } from 'native-base';
+import { Table, Row, Rows } from 'react-native-table-component';
 import styles from './DashboardStyles';
+import { database } from '../../firebase';
 
 /**
  * DashboardScreen component
@@ -14,7 +16,10 @@ class DashboardScreen extends Component {
   constructor() {
     super();
     this.state = {
-      hasFontLoaded: false
+      hasFontLoaded: false,
+      hasLoadedData: false,
+      games: [],
+      tribeScore: 0
     };
   }
 
@@ -33,13 +38,68 @@ class DashboardScreen extends Component {
   }
 
   /**
+   * Calculate score
+   * @param {Array} gameData
+   * @param {Object} tribe
+   *
+   * @returns {undefined}
+   */
+  calculateScore = (gameData, tribe) => {
+    if (tribe.tribeName) {
+      const index = gameData.findIndex(data => data.tribe === tribe.tribeName);
+      if (index === -1) {
+        gameData.push({
+          tribe: tribe.tribeName,
+          score: Number(tribe.score)
+        });
+      } else {
+        gameData[index].score += Number(tribe.score);
+      }
+    }
+  }
+
+  /**
+   * Called when component has mounted
+   *
+   * @returns {undefined}
+   */
+  componentDidMount() {
+    database.ref('/leaderboard').on('value', (snapshot) => {
+      const gameData = [];
+      const response = snapshot.val();
+      const games = Object.keys(response);
+      games.map((game) => {
+        Object.values(response[game]).forEach((tribe) => {
+          this.calculateScore(gameData, tribe);
+        });
+
+        if (game === 'survivor') {
+          const survivorGames = Object.keys(response.survivor);
+          survivorGames.map((survivorGame) => {
+            Object.values(response.survivor[survivorGame]).forEach((tribe) => {
+              this.calculateScore(gameData, tribe);
+            });
+          });
+        }
+      });
+      const { result } = this.props.navigation.state.params;
+      const tribeScoreIndex = gameData.findIndex(tribe => tribe.tribe === result.tribeName);
+      this.setState({
+        games: gameData,
+        hasLoadedData: true,
+        tribeScore: gameData[tribeScoreIndex].score
+      });
+    });
+  }
+
+  /**
      * Component render method
      *
      * @returns {Node} jsx
      */
   render() {
     const { result } = this.props.navigation.state.params;
-    if (!this.state.hasFontLoaded) {
+    if (!this.state.hasFontLoaded || !this.state.hasLoadedData) {
       return <Expo.AppLoading />;
     }
     return (
@@ -63,13 +123,21 @@ class DashboardScreen extends Component {
               </View>
               <View style={styles.view}>
                 <View>
-                  <Text style={styles.text}>Team Position:</Text>
-                  <Text style={styles.text}>Current Game:</Text>
+                  <Text style={styles.text}>Tribe Score: {this.state.tribeScore}</Text>
                 </View>
               </View>
-              <View style={styles.view}>
+              <View style={styles.tableView}>
                 <View>
-                  <Text style={styles.text}>Overall Points:</Text>
+                  <Text style={styles.tableHeaderText}>Overall Points</Text>
+                  <Table borderStyle={{ borderColor: '#D3D3D3' }} style={{ flex: 1 }}>
+                    <Row textStyle={styles.tableHeaderText} data={['Tribe', 'Score']} />
+                    {this.state.games.map(tribe =>
+                    <Row
+                      textStyle={styles.rowText}
+                      key={tribe.tribe}
+                      data={[tribe.tribe, tribe.score]}
+                    />)}
+                  </Table>
                 </View>
               </View>
           </Content>

@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   gameView: {
     borderTopWidth: 2,
     borderTopColor: '#D3D3D3',
-    paddingTop: 20
+    paddingTop: 20,
+    marginTop: 10
   },
   text: {
     padding: 5,

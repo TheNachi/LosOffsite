@@ -9,17 +9,31 @@ const styles = StyleSheet.create({
   },
   view: {
     backgroundColor: '#FFFFFF',
-    height: 150,
-    width: 300,
+    width: 350,
     marginTop: 40,
     borderRadius: 10,
     padding: 20,
     flexDirection: 'row'
   },
+  tableView: {
+    backgroundColor: '#FFFFFF',
+    width: 350,
+    marginTop: 40,
+    borderRadius: 10,
+    padding: 20
+  },
+  rowText: {
+    margin: 6,
+    color: '#5D5D5D'
+  },
   userText: {
     alignItems: 'center',
-    marginLeft: 20,
+    marginLeft: 40,
     marginTop: 20
+  },
+  tableHeaderText: {
+    fontWeight: 'bold',
+    margin: 6
   },
   text: {
     color: '#5D5D5D',
