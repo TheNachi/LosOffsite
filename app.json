@@ -1,5 +1,17 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
-  }
+    "name": "LosOffsite",
+    "icon": "./src/assets/The-hunt-logo.png",
+    "version": "1.0.0",
+    "slug": "losoffsite",
+    "sdkVersion": "25.0.0",
+    "ios": {
+      "bundleIdentifier": "com.andela.losoffsite"
+    },
+    "android": {
+      "package": "com.andela.losoffsite"
+    }
+  },
+  "android.config.googleSignIn.apiKey": "AIzaSyCvvq5ZBp409kIYSy7iIETvaDm-4rI0uT8",
+  "android.config.googleSignIn.certificateHash": "3F17D48992259A8A1CC1A65E56BE511EE1530B4E"
 }
