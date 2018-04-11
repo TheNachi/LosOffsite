@@ -29,7 +29,6 @@ class LoginScreen extends Component {
     try {
       this.setState({ isProcessing: true });
       const result = await Expo.Google.logInAsync({
-        behavior: 'web',
         androidClientId: Config.ANDROID_CLIENT_ID,
         iosClientId: Config.IOS_CLIENT_ID,
         androidStandaloneAppClientId: Config.ANDROID_STANDALONE_CLIENT_ID,
