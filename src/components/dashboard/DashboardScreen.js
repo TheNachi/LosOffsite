@@ -84,6 +84,7 @@ class DashboardScreen extends Component {
       });
       const { result } = this.props.navigation.state.params;
       const tribeScoreIndex = gameData.findIndex(tribe => tribe.tribe === result.tribeName);
+      gameData.sort((a, b) => b.score - a.score);
       this.setState({
         games: gameData,
         hasLoadedData: true,
@@ -134,7 +135,7 @@ class DashboardScreen extends Component {
               </View>
               <View style={styles.tableView}>
                 <View>
-                  <Text style={styles.tableHeaderText}>Overall Points</Text>
+                  <Text style={styles.tableHeaderText}>Leaderboard</Text>
                   <Table borderStyle={{ borderColor: '#D3D3D3' }} style={{ flex: 1 }}>
                     <Row textStyle={styles.tableHeaderText} data={['Tribe', 'Points']} />
                     {this.state.games.map(tribe =>

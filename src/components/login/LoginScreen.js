@@ -10,11 +10,15 @@ import { database } from '../../firebase';
  * Login Screen Class Component
 */
 class LoginScreen extends Component {
+  /**
+   * Component constructor
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.state = {
       isProcessing: false
-    }
+    };
   }
   /**
      * Method for logging in with google
@@ -27,6 +31,7 @@ class LoginScreen extends Component {
       const result = await Expo.Google.logInAsync({
         androidClientId: Config.ANDROID_CLIENT_ID,
         iosClientId: Config.IOS_CLIENT_ID,
+        androidStandaloneAppClientId: Config.ANDROID_STANDALONE_CLIENT_ID,
         scopes: ['profile', 'email']
       });
 
