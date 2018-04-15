@@ -84,11 +84,12 @@ class DashboardScreen extends Component {
       });
       const { result } = this.props.navigation.state.params;
       const tribeScoreIndex = gameData.findIndex(tribe => tribe.tribe === result.tribeName);
+      const tribeScore = gameData[tribeScoreIndex].score;
       gameData.sort((a, b) => b.score - a.score);
       this.setState({
         games: gameData,
         hasLoadedData: true,
-        tribeScore: gameData[tribeScoreIndex].score
+        tribeScore
       });
     });
   }
